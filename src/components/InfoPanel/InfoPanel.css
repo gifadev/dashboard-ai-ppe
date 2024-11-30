@@ -1,0 +1,43 @@
+.info-panel {
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  height: 100%;
+}
+
+.info-section {
+  padding: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-section:last-child {
+  border-bottom: none;
+}
+
+.info-title {
+  color: #fff;
+  margin-bottom: 16px;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.chip-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.info-label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.info-value {
+  color: #fff;
+  font-weight: 500;
+}

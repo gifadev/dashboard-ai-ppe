@@ -1,0 +1,121 @@
+.live-view {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.live-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.live-view-header h1 {
+  font-size: 32px;
+  color: #fff;
+  margin: 0;
+}
+
+.time-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(30, 41, 59, 0.5);
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.time-filter select {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.camera-grid {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 24px;
+}
+
+.camera-card {
+  background: linear-gradient(145.76deg, rgba(32, 45, 72, 0.5) 0%, rgba(26, 32, 44, 0.5) 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.camera-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.camera-feed {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  background: #1a202c;
+  overflow: hidden;
+}
+
+.camera-feed video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 16px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.camera-info {
+  flex: 1;
+}
+
+.camera-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.camera-info p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.status-badge {
+  background: rgba(34, 197, 94, 0.9);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.status-badge.offline {
+  background: rgba(239, 68, 68, 0.9);
+}
+
+@media (max-width: 768px) {
+  .live-view {
+    padding: 16px;
+  }
+
+  .camera-grid {
+    grid-template-columns: 1fr;
+  }
+}
