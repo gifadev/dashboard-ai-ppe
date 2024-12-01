@@ -38,11 +38,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile, isOpen }) => {
       icon: <VideoLibrary />,
       path: '/video'
     },
-    {
-      title: 'Video Archive',
-      icon: <VideoLibrary />,
-      path: '/archive'
-    },
+    // {
+    //   title: 'Video Archive',
+    //   icon: <VideoLibrary />,
+    //   path: '/archive'
+    // },
     {
       title: 'Accidents',
       icon: <Warning />,
