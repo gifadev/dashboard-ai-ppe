@@ -75,27 +75,11 @@ const LiveView: React.FC = () => {
       </div>
       <div className="camera-grid">
         {sampleCameras.map((camera) => (
-          <div
+          <CameraCard
             key={camera.id}
-            className="camera-card"
-            onClick={() => handleCardClick(camera)}
-          >
-            <div className="camera-preview">
-              <WebcamStream streamUrl={camera.stream} />
-            </div>
-            <div className="camera-info">
-              <h3>{camera.name}</h3>
-              <p>{camera.location}</p>
-              <div className="camera-status">
-                <span className={`status ${camera.status}`}>
-                  {camera.status}
-                </span>
-                <span className="violations">
-                  Violations: {camera.violations}
-                </span>
-              </div>
-            </div>
-          </div>
+            camera={camera}
+            onCardClick={() => handleCardClick(camera)}
+          />
         ))}
       </div>
 
