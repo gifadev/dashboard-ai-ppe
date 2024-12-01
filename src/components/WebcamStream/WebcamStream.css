@@ -1,0 +1,55 @@
+.stream-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: #1a202c;
+  color: #ef4444;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.webcam-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #1a202c;
+}
+
+.webcam-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Khusus untuk tampilan dalam modal */
+.modal-camera-view .webcam-container {
+  width: 75%;
+  min-height: 0;
+}
+
+/* Khusus untuk tampilan dalam card */
+.camera-preview .webcam-container {
+  border-radius: 8px 8px 0 0;
+  height: 160px;
+}
+
+/* Responsive design untuk layar kecil */
+@media (max-width: 768px) {
+  .modal-camera-view .webcam-container {
+    width: 100%;
+    height: 60vh;
+  }
+  
+  .camera-preview .webcam-container {
+    height: 140px;
+  }
+}

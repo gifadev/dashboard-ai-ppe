@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LiveView.css';
+import WebcamStream from '../components/WebcamStream/WebcamStream.tsx';
+import Modal from '../components/Modal/Modal.tsx';
 
 interface CameraData {
   id: string;
@@ -7,68 +9,41 @@ interface CameraData {
   location: string;
   status: 'online' | 'offline';
   violations: number;
-  stream: string; // URL to video stream
+  stream: string;
 }
 
 const sampleCameras: CameraData[] = [
   {
     id: 'CAM-01',
-    name: 'Building A - Main Entrance',
-    location: 'Building A - Floor 1',
-    status: 'online',
-    violations: 2,
-    stream: '/videos/video.mp4', // Sample video for demo
-  },
-  {
-    id: 'CAM-02',
-    name: 'Production Line Safety Check',
-    location: 'Building B - Production',
+    name: 'Smart Detection Camera',
+    location: 'Main Detection Area',
     status: 'online',
     violations: 0,
-    stream: '/videos/video.mp4',
-  },
-  {
-    id: 'CAM-03',
-    name: 'Storage Area Monitoring',
-    location: 'Storage Facility',
-    status: 'online',
-    violations: 1,
-    stream: '/videos/video.mp4',
-  },
-  {
-    id: 'CAM-04',
-    name: 'Storage Area Monitoring',
-    location: 'Storage Facility',
-    status: 'online',
-    violations: 1,
-    stream: '/videos/video.mp4',
-  },
-  {
-    id: 'CAM-05',
-    name: 'Storage Area Monitoring',
-    location: 'Storage Facility',
-    status: 'online',
-    violations: 1,
-    stream: '/videos/video.mp4',
-  },
+    stream: 'https://smartdetection.ap.ngrok.io/webcam',
+  }
 ];
 
-const CameraCard: React.FC<{
+interface CameraCardProps {
   camera: CameraData;
-}> = ({ camera }) => {
+  onCardClick: () => void;
+}
+
+const CameraCard: React.FC<CameraCardProps> = ({ camera, onCardClick }) => {
   return (
-    <div className="camera-card">
-      <div className="camera-feed">
-        <video autoPlay loop muted>
-          <source src={camera.stream} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="camera-overlay">
-          <div className="camera-info">
-            <h3>{camera.name}</h3>
-            <p>{camera.location}</p>
-          </div>
-          <div className={`status-badge ${camera.status}`}>{camera.status}</div>
+    <div className="camera-card" onClick={onCardClick}>
+      <div className="camera-preview">
+        <WebcamStream 
+          streamUrl={camera.stream}
+        />
+      </div>
+      <div className="camera-info">
+        <div className="camera-header">
+          <h3>{camera.name}</h3>
+          <span className={`status ${camera.status}`}>{camera.status}</span>
+        </div>
+        <p className="location">{camera.location}</p>
+        <div className="violations">
+          <span>Violations: {camera.violations}</span>
         </div>
       </div>
     </div>
@@ -76,9 +51,19 @@ const CameraCard: React.FC<{
 };
 
 const LiveView: React.FC = () => {
+  const [selectedCamera, setSelectedCamera] = useState<CameraData | null>(null);
+
+  const handleCardClick = (camera: CameraData) => {
+    setSelectedCamera(camera);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCamera(null);
+  };
+
   return (
     <div className="live-view">
-      <div className="live-header">
+      <div className="live-view-header">
         <h1>Live View</h1>
         <div className="time-filter">
           <select defaultValue="today">
@@ -88,12 +73,51 @@ const LiveView: React.FC = () => {
           </select>
         </div>
       </div>
-
       <div className="camera-grid">
         {sampleCameras.map((camera) => (
-          <CameraCard key={camera.id} camera={camera} />
+          <div
+            key={camera.id}
+            className="camera-card"
+            onClick={() => handleCardClick(camera)}
+          >
+            <div className="camera-preview">
+              <WebcamStream streamUrl={camera.stream} />
+            </div>
+            <div className="camera-info">
+              <h3>{camera.name}</h3>
+              <p>{camera.location}</p>
+              <div className="camera-status">
+                <span className={`status ${camera.status}`}>
+                  {camera.status}
+                </span>
+                <span className="violations">
+                  Violations: {camera.violations}
+                </span>
+              </div>
+            </div>
+          </div>
         ))}
       </div>
+
+      <Modal isOpen={!!selectedCamera} onClose={handleCloseModal}>
+        {selectedCamera && (
+          <div className="modal-camera-view">
+            <WebcamStream streamUrl={selectedCamera.stream} />
+            <div className="modal-camera-info">
+              <h2>{selectedCamera.name}</h2>
+              <p>{selectedCamera.location}</p>
+              <div className="modal-status">
+                <span className={`status ${selectedCamera.status}`}>
+                  {selectedCamera.status}
+                </span>
+                <span className="violations">
+                  Violations: {selectedCamera.violations}
+                </span>
+              </div>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 };

@@ -9,6 +9,11 @@ import {
   Schedule,
   LocationOn,
 } from '@mui/icons-material';
+import {
+  PieChart, Pie, Cell,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+  BarChart, Bar, ResponsiveContainer
+} from 'recharts';
 import './Dashboard.css';
 
 interface StatCard {
@@ -127,6 +132,19 @@ const Dashboard: React.FC = () => {
     violations: [4, 8, 15, 12, 20, 10],
   };
 
+  const pieData = recentViolations.map(violation => ({
+    name: violation.type,
+    value: violation.count
+  }));
+
+  const COLORS = ['#EF4444', '#F59E0B', '#10B981', '#3B82F6'];
+  const CHART_COLORS = {
+    primary: '#EF4444',
+    secondary: 'rgba(239, 68, 68, 0.15)',
+    grid: 'rgba(255, 255, 255, 0.1)',
+    text: 'rgba(255, 255, 255, 0.7)'
+  };
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
@@ -166,79 +184,117 @@ const Dashboard: React.FC = () => {
       <div className="dashboard-grid">
         <div className="violations-card">
           <div className="card-header">
-            <h2>Recent Violations</h2>
+            <h2>PPE Violations Distribution</h2>
           </div>
-          <div className="violations-list">
-            {recentViolations.map((violation, index) => (
-              <div key={index} className="violation-item">
-                <div className="violation-info">
-                  <div className={`severity-indicator ${violation.severity}`} />
-                  <span className="violation-type">{violation.type}</span>
-                </div>
-                <div className="violation-stats">
-                  <span className="violation-count">{violation.count}</span>
-                  <div className={`trend ${violation.trend > 0 ? 'up' : 'down'}`}>
-                    {violation.trend > 0 ? <TrendingUp /> : <TrendingDown />}
-                    {Math.abs(violation.trend)}%
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={80}
+                  fill={CHART_COLORS.secondary}
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip 
+                  contentStyle={{ 
+                    background: 'rgba(30, 41, 59, 0.9)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    color: CHART_COLORS.text
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="time-series-card">
+          <div className="card-header">
+            <h2>Violation Trends</h2>
+          </div>
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={timeData.violations.map((value, index) => ({
+                time: timeData.labels[index],
+                violations: value
+              }))}>
+                <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                <XAxis 
+                  dataKey="time" 
+                  stroke={CHART_COLORS.text}
+                  tick={{ fill: CHART_COLORS.text }}
+                />
+                <YAxis 
+                  stroke={CHART_COLORS.text}
+                  tick={{ fill: CHART_COLORS.text }}
+                />
+                <Tooltip
+                  contentStyle={{ 
+                    background: 'rgba(30, 41, 59, 0.9)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    color: CHART_COLORS.text
+                  }}
+                />
+                <Legend 
+                  wrapperStyle={{ color: CHART_COLORS.text }}
+                />
+                <Line 
+                  type="monotone" 
+                  dataKey="violations" 
+                  stroke={CHART_COLORS.primary}
+                  strokeWidth={2}
+                  dot={{ fill: CHART_COLORS.primary }}
+                  activeDot={{ r: 6, fill: CHART_COLORS.primary }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
         </div>
 
         <div className="locations-card">
           <div className="card-header">
-            <h2>Location Overview</h2>
+            <h2>Violations by Location</h2>
           </div>
-          <div className="locations-list">
-            {locations.map((location, index) => (
-              <div key={index} className="location-item">
-                <div className="location-header">
-                  <LocationOn />
-                  <h3>{location.name}</h3>
-                </div>
-                <div className="location-stats">
-                  <div className="location-stat">
-                    <Warning />
-                    <span>{location.violations} violations</span>
-                  </div>
-                  <div className="location-stat">
-                    <Videocam />
-                    <span>{location.cameras} cameras</span>
-                  </div>
-                  <div className={`status-badge ${location.status}`}>
-                    {location.status}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="time-distribution-card">
-          <div className="card-header">
-            <h2>Violations by Time</h2>
-          </div>
-          <div className="time-chart">
-            <div className="chart-bars">
-              {timeData.violations.map((value, index) => (
-                <div
-                  key={index}
-                  className="chart-bar"
-                  style={{ height: `${(value / Math.max(...timeData.violations)) * 100}%` }}
-                >
-                  <span className="bar-value">{value}</span>
-                </div>
-              ))}
-            </div>
-            <div className="chart-labels">
-              {timeData.labels.map((label, index) => (
-                <span key={index} className="time-label">
-                  {label}
-                </span>
-              ))}
-            </div>
+          <div className="chart-container">
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={locations}>
+                <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+                <XAxis 
+                  dataKey="name" 
+                  stroke={CHART_COLORS.text}
+                  tick={{ fill: CHART_COLORS.text }}
+                />
+                <YAxis 
+                  stroke={CHART_COLORS.text}
+                  tick={{ fill: CHART_COLORS.text }}
+                />
+                <Tooltip
+                  contentStyle={{ 
+                    background: 'rgba(30, 41, 59, 0.9)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    color: CHART_COLORS.text
+                  }}
+                />
+                <Legend
+                  wrapperStyle={{ color: CHART_COLORS.text }}
+                />
+                <Bar 
+                  dataKey="violations" 
+                  fill={CHART_COLORS.primary}
+                  radius={[4, 4, 0, 0]}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
       </div>

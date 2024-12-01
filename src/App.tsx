@@ -7,6 +7,7 @@ import Accidents from './pages/Accidents.tsx';
 import VideoArchive from './pages/VideoArchive.tsx';
 import Settings from './pages/Settings.tsx';
 import LiveView from './pages/LiveView.tsx';
+import VideoPlayer from './pages/VideoPlayer.tsx';
 import './App.css';
 
 const App = () => {
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/accidents" element={<Accidents />} />
               <Route path="/archive" element={<VideoArchive />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/video" element={<VideoPlayer />} />
             </Routes>
           </div>
         </main>

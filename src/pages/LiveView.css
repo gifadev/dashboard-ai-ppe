@@ -37,36 +37,106 @@
 .camera-grid {
   margin-top: 24px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
+  padding: 24px;
 }
 
 .camera-card {
   background: linear-gradient(145.76deg, rgba(32, 45, 72, 0.5) 0%, rgba(26, 32, 44, 0.5) 100%);
   border-radius: 12px;
   overflow: hidden;
+  cursor: pointer;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
 }
 
 .camera-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
-.camera-feed {
-  position: relative;
+.camera-preview {
   width: 100%;
-  height: 220px;
-  background: #1a202c;
+  height: 160px;
+  position: relative;
   overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.camera-feed video {
+.camera-preview .webcam-container {
+  width: 100%;
+  height: 100%;
+}
+
+.camera-preview .webcam-iframe {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.camera-info {
+  padding: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.camera-info h3 {
+  margin: 0;
+  color: white;
+  font-size: 16px;
+}
+
+.camera-info p {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.camera-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.status.online {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+.status.offline {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.violations {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.stream-error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .camera-overlay {
@@ -79,10 +149,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-}
-
-.camera-info {
-  flex: 1;
 }
 
 .camera-info h3 {
@@ -110,6 +176,79 @@
   background: rgba(239, 68, 68, 0.9);
 }
 
+.modal-camera-view {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-camera-view .webcam-container {
+  flex: 1;
+  min-height: 0;
+  margin-bottom: 20px;
+}
+
+.modal-camera-info {
+  padding: 0 20px 20px;
+}
+
+.modal-camera-info h2 {
+  margin: 0 0 8px 0;
+  color: white;
+  font-size: 24px;
+}
+
+.modal-camera-info p {
+  margin: 0 0 16px 0;
+  color: #94a3b8;
+  font-size: 16px;
+}
+
+.modal-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.modal-status .status {
+  font-size: 14px;
+}
+
+.modal-status .violations {
+  color: #cbd5e1;
+  font-size: 14px;
+}
+
+.modal-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 20px;
+  margin-bottom: 20px;
+  height: calc(100% - 100px); /* Memberikan ruang untuk info di bawah */
+}
+
+.video-cell {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.video-cell h3 {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin: 0;
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 4px;
+  font-size: 14px;
+  color: white;
+  z-index: 1;
+}
+
 @media (max-width: 768px) {
   .live-view {
     padding: 16px;
@@ -117,5 +256,16 @@
 
   .camera-grid {
     grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .camera-preview {
+    height: 140px;
+  }
+  
+  .modal-video-grid {
+    grid-template-columns: 1fr;
+    height: auto;
   }
 }

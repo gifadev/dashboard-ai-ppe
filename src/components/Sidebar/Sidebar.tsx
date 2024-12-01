@@ -22,60 +22,60 @@ const Sidebar: React.FC<SidebarProps> = ({ onCloseMobile, isOpen }) => {
     }
   };
 
+  const menuItems = [
+    {
+      title: 'Dashboard',
+      icon: <DashboardIcon />,
+      path: '/'
+    },
+    {
+      title: 'Live View',
+      icon: <Home />,
+      path: '/live'
+    },
+    {
+      title: 'Video Player',
+      icon: <VideoLibrary />,
+      path: '/video'
+    },
+    {
+      title: 'Video Archive',
+      icon: <VideoLibrary />,
+      path: '/archive'
+    },
+    {
+      title: 'Accidents',
+      icon: <Warning />,
+      path: '/accidents'
+    },
+    {
+      title: 'Settings',
+      icon: <Settings />,
+      path: '/settings'
+    }
+  ];
+
   return (
     <aside className={`sidebar ${isOpen ? 'active' : ''}`}>
       <div className="sidebar-header">
         <NavLink to="/" className="logo" onClick={handleLinkClick}>
           <Security />
-          <span>STRIKE</span>
+          <span>SIMS</span>
         </NavLink>
       </div>
 
       <nav className="nav-menu">
-        <NavLink 
-          to="/" 
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          onClick={handleLinkClick}
-        >
-          <DashboardIcon />
-          <span className="nav-text">Dashboard</span>
-        </NavLink>
-
-        <NavLink 
-          to="/live" 
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          onClick={handleLinkClick}
-        >
-          <Home />
-          <span className="nav-text">Live View</span>
-        </NavLink>
-
-        <NavLink 
-          to="/archive" 
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          onClick={handleLinkClick}
-        >
-          <VideoLibrary />
-          <span className="nav-text">Video Archive</span>
-        </NavLink>
-
-        <NavLink 
-          to="/accidents" 
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          onClick={handleLinkClick}
-        >
-          <Warning />
-          <span className="nav-text">Accidents</span>
-        </NavLink>
-
-        <NavLink 
-          to="/settings" 
-          className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-          onClick={handleLinkClick}
-        >
-          <Settings />
-          <span className="nav-text">Settings</span>
-        </NavLink>
+        {menuItems.map((menuItem, index) => (
+          <NavLink 
+            key={index} 
+            to={menuItem.path} 
+            className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+            onClick={handleLinkClick}
+          >
+            {menuItem.icon}
+            <span className="nav-text">{menuItem.title}</span>
+          </NavLink>
+        ))}
       </nav>
 
       <div className="sidebar-footer">
