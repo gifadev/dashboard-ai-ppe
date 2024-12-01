@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
   const stats: StatCard[] = [
     {
       title: 'Active Cameras',
-      value: '24/30',
+      value: '1/10',
       icon: <Videocam />,
       trend: { value: 2, isUp: true },
       color: '#4CAF50',
