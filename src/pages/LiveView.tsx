@@ -42,9 +42,9 @@ const CameraCard: React.FC<CameraCardProps> = ({ camera, onCardClick }) => {
           <span className={`status ${camera.status}`}>{camera.status}</span>
         </div>
         <p className="location">{camera.location}</p>
-        <div className="violations">
+        {/* <div className="violations">
           <span>Violations: {camera.violations}</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
@@ -94,9 +94,9 @@ const LiveView: React.FC = () => {
                 <span className={`status ${selectedCamera.status}`}>
                   {selectedCamera.status}
                 </span>
-                <span className="violations">
+                {/* <span className="violations">
                   Violations: {selectedCamera.violations}
-                </span>
+                </span> */}
               </div>
             </div>
           </div>
