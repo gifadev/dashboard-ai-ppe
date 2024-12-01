@@ -3,9 +3,7 @@ import {
   Notifications,
   Security,
   Storage,
-  Language,
   CameraAlt,
-  Build,
   Save,
 } from '@mui/icons-material';
 import './Settings.css';

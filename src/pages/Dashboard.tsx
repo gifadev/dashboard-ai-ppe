@@ -7,7 +7,6 @@ import {
   TrendingUp,
   TrendingDown,
   Schedule,
-  LocationOn,
 } from '@mui/icons-material';
 import {
   PieChart, Pie, Cell,
